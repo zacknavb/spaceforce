@@ -40,7 +40,7 @@ function setup() {
       y = height/2;
       player = new Sprite(x,y);
       player.img = 'player.png';
-      player.scale = 0.07;
+      player.scale = 0.09;
       player.rotationLock = true;
   
       //Game borders
@@ -68,7 +68,7 @@ function draw() {
     case 0:
       background(bg);
       image(title, width/2-125, height/2-150);
-      textFont('Couriier New');
+      textFont('Pixelify Sans');
       fill('white');
       textAlign(CENTER);
       textSize(26);
@@ -94,6 +94,7 @@ function draw() {
       background(bg);
       fill('white');
       textSize(20);
+      textFont('Pixelify Sans');
       text('Score:',500, 20);
       text(score,540,20);
       player.speed= 5;
@@ -134,7 +135,7 @@ function draw() {
   case 2:
       background(bgl);
       image(titlel, width/2-125, height/2-180);
-      textFont('Couriier New');
+      textFont('Pixelify Sans');
       fill('white');
       textAlign(CENTER);
       textSize(30);
@@ -146,13 +147,13 @@ function draw() {
       text('SCORE:',width/2+20,height/2+10);
       text(score, width/2+50, height/2+10)
       
-      fill(112, 0, 13);
+      fill('red');
       noStroke();
       rectMode(CENTER);
       rect(width/2, height/2+60, 130, 30, 20);
       textSize(20);
       textAlign(CENTER);
-      fill('black');
+      fill('white');
       text('TITLE', width/2, height/2+68);
       if(mouseX >= 225 && mouseX <= 375 && mouseY >= 245 && mouseY <= 275 && mouseIsPressed == true){
         enemy.cull(-1000);

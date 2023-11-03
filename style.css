@@ -10,10 +10,12 @@ canvas {
   display: block;
 }
 
-h1, h5 {
+h1, h4 {
   text-align: center;
+  font-family: 'Pixelify Sans', sans-serif;
 }
 
 p {
   text-align: center;
+  font-family: 'Pixelify Sans', sans-serif;
 }
