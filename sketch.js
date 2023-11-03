@@ -96,13 +96,15 @@ function draw() {
       textSize(20);
       textFont('Pixelify Sans');
       text('Score:',500, 20);
-      text(score,540,20);
+      text(score,550,20);
       player.speed= 5;
   
     if(kb.pressing('up')) {
       player.direction= -90;
+      player.x = 50;
     } else if (kb.pressing('down')) {
       player.direction= 90;
+      player.x =50;
     } else {
       player.speed = 0;
     }
@@ -145,7 +147,7 @@ function draw() {
       fill(73, 209, 0);
       textAlign(RIGHT);
       text('SCORE:',width/2+20,height/2+10);
-      text(score, width/2+50, height/2+10)
+      text(score, width/2+60, height/2+10)
       
       fill('red');
       noStroke();
