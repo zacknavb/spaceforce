@@ -1,7 +1,7 @@
 let data;
 let bg;
 let title, titlel;
-let player, bullets, enemy, floor, wall;
+let player, bullets, enemy, met, floor, wall, back, front;
 let x, y;
 let loopStart = 0.5;
 let loopDuration = 0.2;
@@ -40,27 +40,39 @@ function setup() {
       y = height/2;
       player = new Sprite(x,y);
       player.img = 'player.png';
-      player.scale = 0.09;
+      player.scale = 1.4;
       player.rotationLock = true;
-      player.h = 32;
-      player.w = 26;
+      player.h = 22;
+      player.w = 38;
   
       //Game borders
-      wall = new Sprite(width/2,-1,width,1,'static');
-      base = new Sprite(width/2,height+1,width,1,'static');
+      wall = new Sprite(width/2, -1, width, 1, 'static');
+      base = new Sprite(width/2, height+1, width, 1, 'static');
+      back = new Sprite(-50, height/2, 1, height, 'static');
+      front = new Sprite(width+1, height/2, 1, height, 'static');
+      
   
       //Bullets
       bullets = new Group();
-      bullets.color='white';
-      bullets.stroke='white';
+      bullets.img = 'bullet.png';
+      bullets.scale = 1.8;
       bullets.rotationLock = true;
   
       //Enemies
       enemy = new Group();
       enemy.img = 'enemy.png';
-      enemy.scale = 0.03;
+      enemy.scale = 1.4;
       enemy.rotationLock = true;
-      enemy.r = 17;
+      
+      enemy2 = new Group();
+      enemy2.img = 'enemy2.png';
+      enemy2.scale = 2;
+      enemy2.rotationLock = true;
+      
+      met = new Group();
+      met.img = 'meteor.png';
+      met.scale = 1.8;
+      met.rotationLock = true;
       
     }
   backgroundM();
@@ -130,10 +142,15 @@ function draw() {
       fill(73, 209, 0);
       text('Score:',470, 20);
       text(score,540,20);
+      player.x = 50;
       player.speed= 5;
-      enemy.speed = 3;
+      enemy.speed = 6;
       enemy.direction = 180;
-      bullets.speed = 5;
+      enemy2.speed = 4;
+      enemy2.direction = 180;
+      bullets.speed = 7;
+      met.speed = 12;
+      met.direction = 180;
   
     if(kb.pressing('up')) {
       player.direction= -90;
@@ -156,6 +173,17 @@ function draw() {
     }
   
     if(enemy.collides(player)) {
+      player.x = -200;
+      death.play();
+      scene = 2;
+    }
+    if(enemy2.collides(player)) {
+      player.x = -200;
+      death.play();
+      scene = 2;
+    }
+    if(met.collides(player)) {
+      player.x = -200;
       death.play();
       scene = 2;
     }
@@ -163,11 +191,73 @@ function draw() {
     spawn();
   
     for(i = 0; i < enemy.length; i++) {
+      if(enemy[i].overlap(back)) {
+        enemy[i].remove();
+        return;
+      }
+    }
+    
+    for(i = 0; i < enemy2.length; i++) {
+      if(enemy2[i].overlap(back)) {
+        enemy2[i].remove();
+        return;
+      }
+    }
+      
+    for(i = 0; i < bullets.length; i++) {
+      if(bullets[i].overlap(front)) {
+        bullets[i].remove();
+        return;
+      }
+    }
+      
+    for(i = 0; i < met.length; i++) {
+      if(met[i].overlap(back)) {
+        met[i].remove();
+        return;
+      }
+    }
+      
+    for(i = 0; i < enemy.length; i++) {
       for(j=0; j < bullets.length; j++) {
         if(bullets[j].overlap(enemy[i])) {
           bullets[j].remove();
           enemy[i].remove();
           score+=1;
+          return;
+      }
+    }
+   }
+      for(i = 0; i < enemy2.length; i++) {
+      for(j=0; j < bullets.length; j++) {
+        if(bullets[j].overlap(enemy2[i])) {
+          bullets[j].remove();
+          enemy2[i].remove();
+          score+=1;
+          return;
+      }
+    }
+   }
+      for(i = 0; i < met.length; i++) {
+      for(j=0; j < bullets.length; j++) {
+        if(bullets[j].overlap(met[i])) {
+          bullets[j].remove();
+          return;
+      }
+    }
+   }
+      for(i = 0; i < met.length; i++) {
+      for(j=0; j < enemy.length; j++) {
+        if(enemy[j].overlap(met[i])) {
+          enemy[j].remove();
+          return;
+      }
+    }
+   }
+      for(i = 0; i < met.length; i++) {
+      for(j=0; j < enemy2.length; j++) {
+        if(enemy2[j].overlap(met[i])) {
+          enemy2[j].remove();
           return;
       }
     }
@@ -276,7 +366,9 @@ function draw() {
       
       player.speed= 0;
       enemy.speed = 0;
+      enemy2.speed = 0;
       bullets.speed = 0;
+      met.speed = 0;
       
       if(kb.pressed('escape')) {
         scene = 1;
@@ -367,7 +459,10 @@ function draw() {
 function spawn() {
   if (seconds <=60 && frameCount % 60 == 0) {
     new enemy.Sprite(width,random(height));
-    new enemy.Sprite(width,random(height));
+    new enemy2.Sprite(width,random(height));
+  }
+  if (seconds <=60 && frameCount % 60 == 0) {
+    new met.Sprite(width,random(height));
   }
 }
 
@@ -444,7 +539,9 @@ function mouseClicked() {
   //Lose Screen Title Button
   if (mouseX >= 215 && mouseX <= 385 && mouseY >= 235 && mouseY <= 285 && scene == 2){
     enemy.cull(-1000);
+    enemy2.cull(-1000);
     bullets.cull(-1000);
+    met.cull(-1000);
     score = 0;
     scene = 0;
   }
@@ -452,7 +549,9 @@ function mouseClicked() {
   //Lose Screen Play Again Button
   if (mouseX >= 215 && mouseX <= 385 && mouseY >= 300 && mouseY <= 350 && scene == 2){
     enemy.cull(-1000);
+    enemy2.cull(-1000);
     bullets.cull(-1000);
+    met.cull(-1000);
     score = 0;
     player.x = 50;
     player.y = height/2;
@@ -467,6 +566,9 @@ function mouseClicked() {
   //Pause Screen Title Button
   if (mouseX >= 215 && mouseX <= 385 && mouseY >= 320 && mouseY <= 370 && scene == 3){
     enemy.cull(-1000);
+    enemy2.cull(-1000);
+    bullets.cull(-1000);
+    met.cull(-1000);
     score = 0;
     scene = 0;
   }
