@@ -161,11 +161,13 @@ function draw() {
     } else {
       player.speed = 0;
     }
-  
-    if(kb.pressed('space')) {
-      let b = new bullets.Sprite(player.x+10,player.y,5,5);
-      b.direction = 0;
-      shoot.play();
+      
+    if(kb.pressing('space')) {
+      if (seconds <=60 && frameCount % 15 == 0) {
+        let b = new bullets.Sprite(player.x+10,player.y,5,5);
+        b.direction = 0;
+        shoot.play();
+  }
     }
     
     if(kb.pressed('escape')) {
