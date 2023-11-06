@@ -7,6 +7,10 @@ let loopStart = 0.5;
 let loopDuration = 0.2;
 let seconds = 10;
 
+var shCD = 0;
+
+let FR = 15;
+
 var shoot, death, bgm;
 
 var bgmv = 0.4;
@@ -162,12 +166,17 @@ function draw() {
       player.speed = 0;
     }
       
+    if(shCD > 0) {
+      shCD--;
+    }
+      
     if(kb.pressing('space')) {
-      if (seconds <=60 && frameCount % 15 == 0) {
+      if (shCD == 0) {
         let b = new bullets.Sprite(player.x+10,player.y,5,5);
         b.direction = 0;
         shoot.play();
-  }
+        shCD = FR;
+      }
     }
     
     if(kb.pressed('escape')) {
@@ -389,12 +398,12 @@ function draw() {
       
       textSize(20);
       text('Music Volume',width/2, height/2-35);
-      text(bgmv,width/2, height/2-10);
+      text(bgmv.toFixed(1),width/2, height/2-10);
       text('-',width/2-30, height/2-10);
       text('+',width/2+30, height/2-10);
       
       text('SFX Volume',width/2, height/2+25);
-      text(sfxv,width/2, height/2+50);
+      text(sfxv.toFixed(1),width/2, height/2+50);
       text('-',width/2-30, height/2+50);
       text('+',width/2+30, height/2+50);
       
