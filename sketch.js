@@ -138,7 +138,7 @@ function draw() {
 
     break;
     case 1:
-      soundV()
+      soundV();
       background(bg);
       textSize(20);
       textFont('Pixelify Sans');
@@ -340,12 +340,12 @@ function draw() {
       textAlign(CENTER);
       fill('white');
       text('Music Volume',width/2, height/2-55);
-      text(bgmv,width/2, height/2-30);
+      text(bgmv.toFixed(1),width/2, height/2-30);
       text('-',width/2-30, height/2-30);
       text('+',width/2+30, height/2-30);
       
       text('SFX Volume',width/2, height/2+5);
-      text(sfxv,width/2, height/2+30);
+      text(sfxv.toFixed(1),width/2, height/2+30);
       text('-',width/2-30, height/2+30);
       text('+',width/2+30, height/2+30);
       
