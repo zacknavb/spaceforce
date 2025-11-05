@@ -31,7 +31,7 @@ function preload() {
 }
 
 function setup() {
-  let canvas = createCanvas(600, 400);
+  let myCanvas = createCanvas(600, 400);
   myCanvas.parent("specialDiv");
   
   switch(scene){
