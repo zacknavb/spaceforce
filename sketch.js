@@ -22,7 +22,6 @@ var score = 0;
 let scene = 0;
 
 function preload() {
-  data = canvas;
   soundFormats('mp3');
   bgm = loadSound('titlem.mp3');
   title = loadImage('title.png');
@@ -32,8 +31,8 @@ function preload() {
 }
 
 function setup() {
-  let canvas = new Canvas(600, 400);
-  canvas.parent('data');
+  let canvas = createCanvas(600, 400);
+  myCanvas.parent("specialDiv");
   
   switch(scene){
     case 0:
